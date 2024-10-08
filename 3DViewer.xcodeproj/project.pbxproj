@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,13 +15,14 @@
 		138A83122BBCF6DC00D18B10 /* _DViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138A83112BBCF6DC00D18B10 /* _DViewerTests.swift */; };
 		138A831D2BBCF6DC00D18B10 /* _DViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138A831C2BBCF6DC00D18B10 /* _DViewerUITests.swift */; };
 		13C8D5502C5EE47E00DBA972 /* CopaPiston.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D5392C5EDD3E00DBA972 /* CopaPiston.stl */; };
-		13C8D5542C5EE48100DBA972 /* MarioSTL.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D54C2C5EE43700DBA972 /* MarioSTL.stl */; };
 		13C8D55D2C5EE97A00DBA972 /* kaws.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D55C2C5EE97A00DBA972 /* kaws.stl */; };
 		13C8D5622C5EE98700DBA972 /* _guy2.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D5612C5EE98700DBA972 /* _guy2.stl */; };
 		13C8D5672C5EE99200DBA972 /* _thomas2.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D5662C5EE99200DBA972 /* _thomas2.stl */; };
-		13C8D57B2C5EE9DC00DBA972 /* Megaman.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D57A2C5EE9DC00DBA972 /* Megaman.stl */; };
 		13C8D5802C5EE9F400DBA972 /* rocky.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D57F2C5EE9F400DBA972 /* rocky.stl */; };
 		13C8D5852C5EEA0000DBA972 /* squirtle.stl in Resources */ = {isa = PBXBuildFile; fileRef = 13C8D5842C5EEA0000DBA972 /* squirtle.stl */; };
+		9CE1EF3C2C9C8399001164D3 /* MarioSTL.stl in Resources */ = {isa = PBXBuildFile; fileRef = 9CE1EF3D2C9C8399001164D3 /* MarioSTL.stl */; };
+		9CE1EF3F2CA33D58001164D3 /* Megaman.stl in Resources */ = {isa = PBXBuildFile; fileRef = 9CE1EF3E2CA33D58001164D3 /* Megaman.stl */; };
+		9CE1EF412CA49C5F001164D3 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE1EF402CA49C5F001164D3 /* DocumentPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,13 +57,14 @@
 		138A831C2BBCF6DC00D18B10 /* _DViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _DViewerUITests.swift; sourceTree = "<group>"; };
 		138A831E2BBCF6DC00D18B10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13C8D5392C5EDD3E00DBA972 /* CopaPiston.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = CopaPiston.stl; sourceTree = "<group>"; };
-		13C8D5582C5EE49000DBA972 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/MarioSTL.stl; sourceTree = "<group>"; };
 		13C8D55C2C5EE97A00DBA972 /* kaws.stl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kaws.stl; sourceTree = "<group>"; };
 		13C8D5612C5EE98700DBA972 /* _guy2.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = _guy2.stl; sourceTree = "<group>"; };
 		13C8D5662C5EE99200DBA972 /* _thomas2.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = _thomas2.stl; sourceTree = "<group>"; };
-		13C8D57A2C5EE9DC00DBA972 /* Megaman.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Megaman.stl; sourceTree = "<group>"; };
 		13C8D57F2C5EE9F400DBA972 /* rocky.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = rocky.stl; sourceTree = "<group>"; };
 		13C8D5842C5EEA0000DBA972 /* squirtle.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = squirtle.stl; sourceTree = "<group>"; };
+		9CE1EF3D2C9C8399001164D3 /* MarioSTL.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = MarioSTL.stl; sourceTree = "<group>"; };
+		9CE1EF3E2CA33D58001164D3 /* Megaman.stl */ = {isa = PBXFileReference; lastKnownFileType = file; path = Megaman.stl; sourceTree = "<group>"; };
+		9CE1EF402CA49C5F001164D3 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,10 +115,10 @@
 		138A82FE2BBCF6D900D18B10 /* 3DViewer */ = {
 			isa = PBXGroup;
 			children = (
-				13C8D57A2C5EE9DC00DBA972 /* Megaman.stl */,
+				9CE1EF3E2CA33D58001164D3 /* Megaman.stl */,
 				13C8D5662C5EE99200DBA972 /* _thomas2.stl */,
 				13C8D5612C5EE98700DBA972 /* _guy2.stl */,
-				13C8D54C2C5EE43700DBA972 /* MarioSTL.stl */,
+				9CE1EF3D2C9C8399001164D3 /* MarioSTL.stl */,
 				13C8D5842C5EEA0000DBA972 /* squirtle.stl */,
 				13C8D57F2C5EE9F400DBA972 /* rocky.stl */,
 				13C8D55C2C5EE97A00DBA972 /* kaws.stl */,
@@ -126,6 +128,7 @@
 				138A83012BBCF6D900D18B10 /* ContentView.swift */,
 				138A83032BBCF6DB00D18B10 /* Assets.xcassets */,
 				138A83082BBCF6DB00D18B10 /* Info.plist */,
+				9CE1EF402CA49C5F001164D3 /* DocumentPicker.swift */,
 				138A83052BBCF6DB00D18B10 /* Preview Content */,
 			);
 			path = 3DViewer;
@@ -219,8 +222,9 @@
 		138A82F42BBCF6D900D18B10 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					138A82FB2BBCF6D900D18B10 = {
 						CreatedOnToolsVersion = 12.4;
@@ -261,10 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1350D5582BE959E800A68A65 /* JacksonV2.stl in Resources */,
+				9CE1EF3F2CA33D58001164D3 /* Megaman.stl in Resources */,
 				13C8D5622C5EE98700DBA972 /* _guy2.stl in Resources */,
 				13C8D5672C5EE99200DBA972 /* _thomas2.stl in Resources */,
-				13C8D5542C5EE48100DBA972 /* MarioSTL.stl in Resources */,
-				13C8D57B2C5EE9DC00DBA972 /* Megaman.stl in Resources */,
+				9CE1EF3C2C9C8399001164D3 /* MarioSTL.stl in Resources */,
 				138A83072BBCF6DB00D18B10 /* Preview Assets.xcassets in Resources */,
 				13C8D5802C5EE9F400DBA972 /* rocky.stl in Resources */,
 				13C8D55D2C5EE97A00DBA972 /* kaws.stl in Resources */,
@@ -296,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				138A83022BBCF6D900D18B10 /* ContentView.swift in Sources */,
+				9CE1EF412CA49C5F001164D3 /* DocumentPicker.swift in Sources */,
 				138A83002BBCF6D900D18B10 /* _DViewerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,17 +335,6 @@
 			targetProxy = 138A83192BBCF6DC00D18B10 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13C8D54C2C5EE43700DBA972 /* MarioSTL.stl */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13C8D5582C5EE49000DBA972 /* en */,
-			);
-			name = MarioSTL.stl;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		138A831F2BBCF6DC00D18B10 /* Debug */ = {
@@ -380,6 +374,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -441,6 +436,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
