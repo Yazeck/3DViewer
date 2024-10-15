@@ -3,6 +3,13 @@ import SwiftUI
 import SceneKit
 import UniformTypeIdentifiers
 
+// Estructura para almacenar datos técnicos del modelo
+struct ModelData {
+    let name: String
+    let dimensions: String
+    let weight: String
+    var vertices: String
+}
 struct STLView: UIViewRepresentable {
     var scene: SCNScene?
     var modelColor: UIColor?
@@ -53,18 +60,87 @@ struct ContentView: View {
     @State private var stlFiles: [URL] = []
     @State private var showingDocumentPicker = false
     @State private var isLoading: Bool = false  // Indica si se está cargando un modelo
+    @State private var isRotating: Bool = false  // Nueva variable para controlar la rotación
+    @State private var showInfoAlert: Bool = false  // Nueva variable para mostrar la alerta de información
+    @State private var modelData: ModelData? // Para almacenar los datos técnicos del modelo
+    private func calculateModelDimensions(scene: SCNScene) -> (String, String) {
+        let rootNode = scene.rootNode  // No es opcional, puedes usarlo directamente
+        
+        var minX: Float = .greatestFiniteMagnitude
+        var minY: Float = .greatestFiniteMagnitude
+        var minZ: Float = .greatestFiniteMagnitude
+        var maxX: Float = -.greatestFiniteMagnitude
+        var maxY: Float = -.greatestFiniteMagnitude
+        var maxZ: Float = -.greatestFiniteMagnitude
+        
+        var vertexCount = 0  // Inicializa el contador de vértices
+
+        rootNode.enumerateChildNodes { (node, _) in
+            let boundingBox = node.boundingBox  // Accede directamente a boundingBox
+            minX = min(minX, boundingBox.min.x)
+            minY = min(minY, boundingBox.min.y)
+            minZ = min(minZ, boundingBox.min.z)
+            maxX = max(maxX, boundingBox.max.x)
+            maxY = max(maxY, boundingBox.max.y)
+            maxZ = max(maxZ, boundingBox.max.z)
+            
+            // Contar los vértices
+            if let geometry = node.geometry {
+                vertexCount += geometry.sources(for: .vertex).first?.vectorCount ?? 0
+            }
+        }
+
+        let dimensions = SCNVector3(maxX - minX, maxY - minY, maxZ - minZ)
+        return ("\(String(format: "%.2f", dimensions.x)) x \(String(format: "%.2f", dimensions.y)) x \(String(format: "%.2f", dimensions.z)) cm", "\(vertexCount) vértices")
+    }
+    private func fileSizeInMB(fileURL: URL) -> Double {
+        do {
+            let fileAttributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
+            if let fileSize = fileAttributes[FileAttributeKey.size] as? NSNumber {
+                return fileSize.doubleValue / (1024 * 1024)  // Convertir bytes a MB
+            }
+        } catch {
+            print("Error al obtener el tamaño del archivo: \(error)")
+        }
+        return 0.0
+    }
 
     var body: some View {
         VStack {
             controlBar
-            STLView(scene: scene, modelColor: UIColor(selectedColor))
-                .edgesIgnoringSafeArea(.all)
-            if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .scaleEffect(2)  // Cambiar el tamaño del indicador de carga
+            ZStack {
+                // Vista del modelo 3D
+                STLView(scene: scene, modelColor: UIColor(selectedColor))
+                    .edgesIgnoringSafeArea(.all)
+
+                // Indicador de carga centrado
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(4)  //tamaño del indicador de carga
+                        .frame(width: 100, height: 100)  // Tamaño del frame para centrarlo mejor
+                        .foregroundColor(.black)
+                        .opacity(1)
+                        .shadow(radius: 10)  // Sombra para darle un efecto flotante
+                        .rotationEffect(Angle(degrees: isRotating ? 360 : 0))  // Animación de rotación
+                        .onAppear {
+                            startRotating()  // Iniciar la rotación al aparecer
                         }
-        }
+                }
+            }
+            .alert(isPresented: $showInfoAlert) {
+                Alert(
+                    title: Text("Datos Técnicos"),
+                    message: Text(modelData != nil ? """
+                    Nombre: \(modelData?.name ?? "Desconocido")
+                    Dimensiones: \(modelData?.dimensions ?? "Desconocidas")
+                    Peso: \(modelData?.weight ?? "Desconocido")
+                    Número de vértices: \(modelData?.vertices ?? "Desconocido")
+                    """ : "No hay datos técnicos disponibles."),
+                    dismissButton: .default(Text("Aceptar"))
+                )
+            }
+}
         .onAppear(perform: loadFilesFromDirectory)  // Cargar archivos al iniciar la app
         .sheet(isPresented: $showingDocumentPicker) {
             DocumentPicker(stlFiles: $stlFiles)
@@ -94,7 +170,6 @@ struct ContentView: View {
                         .clipShape(Capsule())
                 }
                 .pickerStyle(MenuPickerStyle())
-                //.padding()
                 .onChange(of: selectedFileIndex) { newIndex in
                     loadScene(for: newIndex)
                 }
@@ -106,6 +181,7 @@ struct ContentView: View {
                         .clipShape(Circle())
                 }
             }
+       
             .padding()
 
             HStack {
@@ -129,11 +205,24 @@ struct ContentView: View {
 
                 if !stlFiles.isEmpty {
                     Button(action: {
-                        if let firstFile = stlFiles.first {
-                            shareFile(fileURL: firstFile)
-                        }
+                           // Asegurarse de que el índice esté dentro de los límites
+                           if selectedFileIndex >= 0 && selectedFileIndex < stlFiles.count {
+                               let selectedFile = stlFiles[selectedFileIndex]
+                               shareFile(fileURL: selectedFile)
+                           } else {
+                               print("El índice seleccionado no es válido.")
+                           }
+                       }) {
+                           Image(systemName: "square.and.arrow.up")
+                               .padding()
+                               .background(buttonColor)
+                               .clipShape(Circle())
+                       }                    // Botón de información
+                    Button(action: {
+                        // Mostrar la alerta con los datos técnicos del modelo
+                        showInfoAlert = true
                     }) {
-                        Image(systemName: "square.and.arrow.up")
+                        Image(systemName: "info.circle")
                             .padding()
                             .background(buttonColor)
                             .clipShape(Circle())
@@ -143,7 +232,6 @@ struct ContentView: View {
         }
     }
 
-      
     @State private var buttonColor: Color = .black
 
     private func loadScene(for index: Int) {
@@ -161,6 +249,20 @@ struct ContentView: View {
                 DispatchQueue.main.async {
                     self.scene = loadedScene
                     self.isLoading = false  // Ocultar el indicador de carga
+                    
+                    // Calcular las dimensiones y el número de vértices
+                    let (dimensions, vertexCount) = self.calculateModelDimensions(scene: loadedScene)
+                    
+                    // Obtener el tamaño del archivo en MB
+                    let fileSizeInMB = self.fileSizeInMB(fileURL: fileURL)
+
+                    // Establecer los datos técnicos del modelo
+                    self.modelData = ModelData(
+                        name: fileURL.lastPathComponent,
+                        dimensions: dimensions,
+                        weight: String(format: "%.2f MB", fileSizeInMB),
+                        vertices: vertexCount  // Asegúrate de pasar el número de vértices aquí
+                    )
                 }
             } catch {
                 print("Failed to load scene: \(error)")
@@ -170,7 +272,6 @@ struct ContentView: View {
             }
         }
     }
-
     private func showPreviousModel() {
         guard !stlFiles.isEmpty else { return }
         selectedFileIndex = selectedFileIndex > 0 ? selectedFileIndex - 1 : stlFiles.count - 1
@@ -210,6 +311,14 @@ struct ContentView: View {
             }
         } catch {
             print("Error al cargar archivos desde el directorio: \(error)")
+        }
+    }
+    
+    private func startRotating() {
+        // Iniciar la animación de rotación
+        isRotating = true
+        withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)) {
+            isRotating = true  // Iniciar la rotación
         }
     }
 }
